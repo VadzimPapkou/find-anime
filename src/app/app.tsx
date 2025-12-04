@@ -24,7 +24,7 @@ function App() {
                 <Divider/>
                 <Typography.Title level={ 2 } style={ {color: 'var(--ant-color-link)'} }>Итоговая
                 ссылка</Typography.Title>
-                <Link href={ aniDbUrl }>{ aniDbUrl }</Link>
+                <Link href={ aniDbUrl } target="_blank">{ aniDbUrl }</Link>
             </> }
         </div>
     )

@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import Papa from 'papaparse'
 
-export function useTagsQuery() {
+type TUseTagsQueryParams = {language?: 'rus' | 'eng'};
+
+export function useTagsQuery(params: TUseTagsQueryParams = {language: 'rus'}) {
     return useQuery({
-        queryKey: ["tags"],
-        queryFn: () => fetchTags()
+        queryKey: ["tags", params],
+        queryFn: () => fetchTags(params)
     });
 }
 
@@ -15,8 +17,8 @@ export type TTag = {
     description: string;
 }
 
-async function fetchTags(): Promise<TTag[]> {
-    const response = await fetch("/tags.csv");
+async function fetchTags(params: TUseTagsQueryParams): Promise<TTag[]> {
+    const response = await fetch(`/tags-${params.language}.csv`);
     const text = await response.text();
     const parsed = Papa.parse<[string, string, string, string]>(text);
     return parsed.data.slice(1).map(([id, name, animeCount, description]) => ({
