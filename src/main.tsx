@@ -4,6 +4,7 @@ import App from './app/app.tsx'
 import { queryClient } from "./shared/api/query-client.ts";
 import { AntdConfigProvider } from './app/antd-config-provider.tsx';
 import { QueryClientProvider } from '@tanstack/react-query';
+import 'material-icons/iconfont/material-icons.css';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>

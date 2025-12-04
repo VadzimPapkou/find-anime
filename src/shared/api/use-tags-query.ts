@@ -8,7 +8,14 @@ export function useTagsQuery() {
     });
 }
 
-async function fetchTags() {
+export type TTag = {
+    id: number;
+    name: string;
+    animeCount: number;
+    description: string;
+}
+
+async function fetchTags(): Promise<TTag[]> {
     const response = await fetch("/tags.csv");
     const text = await response.text();
     const parsed = Papa.parse<[string, string, string, string]>(text);
