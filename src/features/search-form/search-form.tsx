@@ -7,6 +7,7 @@ import { type TTag, useTagsQuery } from "../../shared/api/use-tags-query.ts";
 import { Switch, type TSwitchOption } from "../../shared/ui/switch/switch.tsx";
 import type { TSelectOption } from "../../shared/types/t-select-option.ts";
 import { renderTagOption } from "./render-tag-option.tsx";
+import { useTagsTree } from "../../shared/api/use-tags-tree.ts";
 
 export type TSearchFormState = Partial<{
     sortType: string;
@@ -38,7 +39,10 @@ const initialValues: TSearchFormState = {
 }
 
 export function SearchForm({onForm}: TSearchFormProps) {
-    const tagsQuery = useTagsQuery({language: "eng"});
+    const tagsQuery = useTagsQuery({language: "rus"});
+    const tagsTreeQuery = useTagsTree();
+
+    console.log(tagsTreeQuery.data);
     const [form] = Form.useForm<TSearchFormState>();
 
     useEffect(() => {
