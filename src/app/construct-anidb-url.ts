@@ -1,4 +1,4 @@
-import type { TSearchFormState } from "./search-form.tsx";
+import type { TSearchFormState } from "../features/search-form/search-form.tsx";
 
 export const constructAniDBUrl = (formState: TSearchFormState, tagsNamesMap?: Map<number, string>): string => {
     const baseUrl = 'https://anidb.net/anime/';

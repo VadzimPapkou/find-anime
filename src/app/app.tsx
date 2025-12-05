@@ -2,12 +2,12 @@ import { SearchForm, type TSearchFormState } from "../features/search-form/searc
 import styles from './app.module.scss';
 import { Divider, Form, type FormInstance, Typography } from "antd";
 import { useMemo, useState } from "react";
-import { constructAniDBUrl } from "../features/search-form/construct-url.ts";
+import { constructAniDBUrl } from "./construct-anidb-url.ts";
 import Link from "antd/es/typography/Link";
-import { useTagsNamesQuery } from "../shared/api/use-tags-names-query.ts";
+import { useTagsIdToNameQuery } from "../shared/api/use-tags-id-to-name-query.ts";
 
 function App() {
-    const tagsNamesQuery = useTagsNamesQuery();
+    const tagsNamesQuery = useTagsIdToNameQuery();
     const [searchForm, setSearchForm] = useState<FormInstance<TSearchFormState>>();
     const fields = Form.useWatch<TSearchFormState | undefined>([], searchForm);
 

@@ -1,12 +1,10 @@
-import { DatePicker, Flex, Form, type FormInstance, InputNumber, Select, Spin, Typography } from "antd";
+import { DatePicker, Flex, Form, type FormInstance, InputNumber, Select, Spin, TreeSelect, Typography } from "antd";
 import type { DefaultOptionType } from "antd/es/select";
 import styles from './search-form.module.scss';
 import dayjs, { Dayjs } from "dayjs";
-import { useEffect, useMemo } from "react";
-import { type TTag, useTagsQuery } from "../../shared/api/use-tags-query.ts";
+import { useEffect } from "react";
+import { useTagsQuery } from "../../shared/api/use-tags-query.ts";
 import { Switch, type TSwitchOption } from "../../shared/ui/switch/switch.tsx";
-import type { TSelectOption } from "../../shared/types/t-select-option.ts";
-import { renderTagOption } from "./render-tag-option.tsx";
 import { useTagsTree } from "../../shared/api/use-tags-tree.ts";
 
 export type TSearchFormState = Partial<{
@@ -49,16 +47,6 @@ export function SearchForm({onForm}: TSearchFormProps) {
         onForm?.(form);
     }, [form, onForm]);
 
-    const tagsOptions = useMemo<TSelectOption<TTag>[] | undefined>(() => {
-        if (!tagsQuery.data) return undefined;
-
-        return tagsQuery.data.map(tag => ({
-            ...tag,
-            value: tag.id,
-            label: tag.name,
-        }))
-    }, [tagsQuery.data]);
-
     return (
         <Form form={ form } className={ styles.form } initialValues={ initialValues }>
             <div className={ styles.column }>
@@ -99,10 +87,9 @@ export function SearchForm({onForm}: TSearchFormProps) {
                     <Typography.Title level={ 3 }>Теги</Typography.Title>
                     <Spin spinning={ tagsQuery.isFetching }>
                         <Form.Item name="tags">
-                            <Select mode="multiple"
-                                options={ tagsOptions }
-                                optionRender={ renderTagOption }
-                                showSearch={ {optionFilterProp: 'label'} }
+                            <TreeSelect
+                                treeData={ tagsTreeQuery.data }
+                                multiple
                                 placeholder="Жанры, темы, страна"/>
                         </Form.Item>
                     </Spin>

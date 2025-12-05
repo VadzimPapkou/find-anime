@@ -1,5 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 
+// Правильный тип для TreeSelect
+type TreeSelectNode = {
+    value: string;
+    title: string;
+    children?: TreeSelectNode[];
+    label?: string; // Для совместимости
+    key?: string; // Для совместимости
+};
+
 export function useTagsTree() {
     return useQuery({
         queryKey: ['tags-tree'],
@@ -7,24 +16,21 @@ export function useTagsTree() {
     })
 }
 
-async function fetchTagsTree(): Promise<TreeNode[]> {
+async function fetchTagsTree(): Promise<TreeSelectNode[]> {
     const response = await fetch('/tags-tree.md');
     const text = await response.text();
-    return parseMarkdownToTree(text);
+    return parseMarkdownToTreeSelect(text);
 }
 
-interface TreeNode {
-    name: string;
-    level: number;
-    children: TreeNode[];
-}
-
-function parseMarkdownToTree(markdown: string): TreeNode[] {
+function parseMarkdownToTreeSelect(markdown: string): TreeSelectNode[] {
     const lines = markdown.split('\n');
-    const result: TreeNode[] = [];
-    const stack: { node: TreeNode; level: number }[] = [];
+    const result: TreeSelectNode[] = [];
+    const stack: { node: TreeSelectNode; level: number }[] = [];
 
-    for (let i = 0; i < lines.length; i++) {
+    // Генератор уникальных ключей
+    let keyCounter = 0;
+
+    for(let i = 0; i < lines.length; i++) {
         const line = lines[i];
         const trimmedLine = line.trim();
 
@@ -33,27 +39,40 @@ function parseMarkdownToTree(markdown: string): TreeNode[] {
             continue;
         }
 
+        // Определяем уровень вложенности
         const leadingSpaces = line.match(/^(\s*)\*/)?.[1]?.length || 0;
         const level = Math.floor(leadingSpaces / 4);
-        const name = trimmedLine.substring(2); // Убираем "* "
+        const name = trimmedLine.substring(2);
+        const value = `${ keyCounter++ }-${ name }`;
 
-        const node: TreeNode = {
-            name,
-            level,
+        // Создаем узел для TreeSelect
+        const node: TreeSelectNode = {
+            value: value,
+            title: name,
+            label: name, // Добавляем label для совместимости
+            key: value, // Добавляем key для совместимости
             children: []
         };
 
+        // Удаляем из стека все узлы с уровнем >= текущего
         while (stack.length > 0 && stack[stack.length - 1].level >= level) {
             stack.pop();
         }
 
+        // Добавляем узел в нужное место
         if (stack.length === 0) {
             result.push(node);
         } else {
-            stack[stack.length - 1].node.children.push(node);
+            const parent = stack[stack.length - 1].node;
+            // Убедимся, что children существует
+            if (!parent.children) {
+                parent.children = [];
+            }
+            parent.children.push(node);
         }
 
-        stack.push({ node, level });
+        // Добавляем текущий узел в стек
+        stack.push({node, level});
     }
 
     return result;
