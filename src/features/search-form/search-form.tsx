@@ -14,6 +14,7 @@ export type TSearchFormState = Partial<{
     episodesMin: number;
     episodesMax: number;
     startYear: [Dayjs, Dayjs];
+    tags: number[];
 }>;
 
 type TSearchFormProps = {
@@ -37,7 +38,7 @@ const initialValues: TSearchFormState = {
 }
 
 export function SearchForm({onForm}: TSearchFormProps) {
-    const tagsQuery = useTagsQuery();
+    const tagsQuery = useTagsQuery({language: "eng"});
     const [form] = Form.useForm<TSearchFormState>();
 
     useEffect(() => {
@@ -93,7 +94,7 @@ export function SearchForm({onForm}: TSearchFormProps) {
                 <div>
                     <Typography.Title level={ 3 }>Теги</Typography.Title>
                     <Spin spinning={ tagsQuery.isFetching }>
-                        <Form.Item>
+                        <Form.Item name="tags">
                             <Select mode="multiple"
                                 options={ tagsOptions }
                                 optionRender={ renderTagOption }

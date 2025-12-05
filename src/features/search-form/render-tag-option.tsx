@@ -3,9 +3,7 @@ import type { SelectProps } from "antd";
 
 type TRenderTag = SelectProps<TTag>["optionRender"];
 
-export const renderTagOption: TRenderTag = ({data, label}) => {
-    console.log(data);
-
+export const renderTagOption: TRenderTag = ({label}) => {
     return <div>
         {label}
     </div>;

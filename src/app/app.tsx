@@ -4,16 +4,18 @@ import { Divider, Form, type FormInstance, Typography } from "antd";
 import { useMemo, useState } from "react";
 import { constructAniDBUrl } from "../features/search-form/construct-url.ts";
 import Link from "antd/es/typography/Link";
+import { useTagsNamesQuery } from "../shared/api/use-tags-names-query.ts";
 
 function App() {
+    const tagsNamesQuery = useTagsNamesQuery();
     const [searchForm, setSearchForm] = useState<FormInstance<TSearchFormState>>();
     const fields = Form.useWatch<TSearchFormState | undefined>([], searchForm);
 
     const aniDbUrl = useMemo(() => {
         if (!fields) return null;
 
-        return constructAniDBUrl(fields)
-    }, [fields]);
+        return constructAniDBUrl(fields, tagsNamesQuery.data)
+    }, [fields, tagsNamesQuery.data]);
 
     return (
         <div className={ styles.app }>
