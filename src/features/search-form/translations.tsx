@@ -14,6 +14,19 @@ export const searchFormTranlations: Record<TTranslatedLanguage, Record<string, s
         "technical aspects": "технические аспекты",
         "themes": "темы",
         "ungrouped": "не группируемое",
-        "unsorted": "не отсортированное"
+        "unsorted": "не отсортированное",
+        "ending": "концовка",
+        "storytelling": "тип повествования",
+        "motifs": "мотив",
+        "group sex": "групповой секс",
+        "pornography": "порнография",
+        "FFF threesome": "ЖЖЖ тройничок",
+        "FFM threesome": "ЖЖМ тройничок",
+        "MMF threesome": "ММЖ тройничок",
+        "MMM threesome": "МММ тройничок",
+        "oral": "оральный",
+        "sexual abuse": "сексуальное насилие",
+        "speculative fiction": "фантастическое допущение",
+        "breasts": "женская грудь"
     }
 };
