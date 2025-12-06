@@ -4,24 +4,21 @@ import { Divider, Form, type FormInstance, Typography } from "antd";
 import { useMemo, useState } from "react";
 import { constructAniDBUrl } from "./construct-anidb-url.ts";
 import Link from "antd/es/typography/Link";
-import { useTagsIdToNameQuery } from "../shared/api/use-tags-id-to-name-query.ts";
 
 function App() {
-    const tagsNamesQuery = useTagsIdToNameQuery();
     const [searchForm, setSearchForm] = useState<FormInstance<TSearchFormState>>();
     const fields = Form.useWatch<TSearchFormState | undefined>([], searchForm);
 
     const aniDbUrl = useMemo(() => {
         if (!fields) return null;
-
-        return constructAniDBUrl(fields, tagsNamesQuery.data)
-    }, [fields, tagsNamesQuery.data]);
+        return constructAniDBUrl(fields)
+    }, [fields]);
 
     return (
         <div className={ styles.app }>
             <Typography.Title level={ 2 } style={ {color: 'var(--ant-color-link)'} }>Найти аниме</Typography.Title>
             <Divider/>
-            <SearchForm onForm={ setSearchForm }/>
+            <SearchForm onForm={ setSearchForm } language="rus"/>
             { aniDbUrl && <>
                 <Divider/>
                 <Typography.Title level={ 2 } style={ {color: 'var(--ant-color-link)'} }>Итоговая

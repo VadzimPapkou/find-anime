@@ -1,6 +1,6 @@
 import type { TSearchFormState } from "../features/search-form/search-form.tsx";
 
-export const constructAniDBUrl = (formState: TSearchFormState, tagsNamesMap?: Map<number, string>): string => {
+export const constructAniDBUrl = (formState: TSearchFormState): string => {
     const baseUrl = 'https://anidb.net/anime/';
     const params = new URLSearchParams();
 
@@ -27,18 +27,9 @@ export const constructAniDBUrl = (formState: TSearchFormState, tagsNamesMap?: Ma
         }
     }
 
-    if (formState.tags && tagsNamesMap) {
-        const tagNames: string[] = [];
-        for (const tagId of formState.tags) {
-            const tagName = tagsNamesMap.get(tagId);
-            if (tagName) {
-                tagNames.push(tagName);
-            }
-        }
-        
-        if (tagNames.length > 0) {
-            // Join tag names with comma and space (e.g., "fantasy, romance")
-            params.append('atags.include', tagNames.join(', '));
+    if (formState.tags) {
+        if (formState.tags.length > 0) {
+            params.append('atags.include', formState.tags.join(', '));
         }
     }
 

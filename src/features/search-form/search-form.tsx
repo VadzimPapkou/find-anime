@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { useTagsQuery } from "../../shared/api/use-tags-query.ts";
 import { Switch, type TSwitchOption } from "../../shared/ui/switch/switch.tsx";
 import { useTagsTree } from "../../shared/api/use-tags-tree.ts";
+import type { TLanguage } from "../../shared/types/language.ts";
+import { useTagsTreeOptions } from "./use-tags-tree-options.ts";
 
 export type TSearchFormState = Partial<{
     sortType: string;
@@ -18,6 +20,7 @@ export type TSearchFormState = Partial<{
 
 type TSearchFormProps = {
     onForm?: (form: FormInstance<TSearchFormState>) => void;
+    language?: TLanguage;
 }
 
 const nextYear = dayjs().add(1, 'year');
@@ -34,13 +37,16 @@ const sortDirectionOptions: TSwitchOption[] = [
 
 const initialValues: TSearchFormState = {
     sortDirection: 'desc',
+    sortType: 'rating',
 }
 
-export function SearchForm({onForm}: TSearchFormProps) {
-    const tagsQuery = useTagsQuery({language: "rus"});
+export function SearchForm({onForm, language = 'rus'}: TSearchFormProps) {
+    const tagsQuery = useTagsQuery({language: language});
     const tagsTreeQuery = useTagsTree();
+    const tagsTreeOptions = useTagsTreeOptions({ tagsTreeQuery, tagsQuery, language });
 
-    console.log(tagsTreeQuery.data);
+    console.log(tagsTreeOptions);
+
     const [form] = Form.useForm<TSearchFormState>();
 
     useEffect(() => {
@@ -88,7 +94,10 @@ export function SearchForm({onForm}: TSearchFormProps) {
                     <Spin spinning={ tagsQuery.isFetching }>
                         <Form.Item name="tags">
                             <TreeSelect
-                                treeData={ tagsTreeQuery.data }
+                                showSearch={{
+                                    treeNodeFilterProp: 'title'
+                                }}
+                                treeData={ tagsTreeOptions }
                                 multiple
                                 placeholder="Жанры, темы, страна"/>
                         </Form.Item>

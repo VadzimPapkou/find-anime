@@ -5,7 +5,6 @@ type TreeSelectNode = {
     value: string;
     title: string;
     children?: TreeSelectNode[];
-    label?: string; // Для совместимости
     key?: string; // Для совместимости
 };
 
@@ -27,8 +26,6 @@ function parseMarkdownToTreeSelect(markdown: string): TreeSelectNode[] {
     const result: TreeSelectNode[] = [];
     const stack: { node: TreeSelectNode; level: number }[] = [];
 
-    // Генератор уникальных ключей
-    let keyCounter = 0;
 
     for(let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -43,14 +40,12 @@ function parseMarkdownToTreeSelect(markdown: string): TreeSelectNode[] {
         const leadingSpaces = line.match(/^(\s*)\*/)?.[1]?.length || 0;
         const level = Math.floor(leadingSpaces / 4);
         const name = trimmedLine.substring(2);
-        const value = `${ keyCounter++ }-${ name }`;
 
         // Создаем узел для TreeSelect
         const node: TreeSelectNode = {
-            value: value,
+            value: name,
             title: name,
-            label: name, // Добавляем label для совместимости
-            key: value, // Добавляем key для совместимости
+            key: name,
             children: []
         };
 
