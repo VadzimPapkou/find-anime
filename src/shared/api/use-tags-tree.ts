@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { baseApiUrl } from "./base-url.ts";
 
 // Правильный тип для TreeSelect
 type TreeSelectNode = {
@@ -16,7 +17,7 @@ export function useTagsTree() {
 }
 
 async function fetchTagsTree(): Promise<TreeSelectNode[]> {
-    const response = await fetch('/tags-tree.md');
+    const response = await fetch(`${baseApiUrl}/tags-tree.md`);
     const text = await response.text();
     return parseMarkdownToTreeSelect(text);
 }
