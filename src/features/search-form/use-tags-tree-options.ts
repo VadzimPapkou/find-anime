@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import type { TLanguage } from "../../shared/types/language.ts";
 import type { useTagsQuery } from "../../shared/api/use-tags-query.ts";
 import type { useTagsTree } from "../../shared/api/use-tags-tree.ts";
-import { searchFormTranlations } from "./translations.tsx";
+import { tagsTranslationsOverrides } from "./translations.tsx";
 
 type TreeSelectNode = {
     value: string;
@@ -37,7 +37,7 @@ export function useTagsTreeOptions({ tagsTreeQuery, tagsQuery, language }: UseTa
         }
 
         // Получаем переводы из searchFormTranlations как fallback
-        const fallbackTranslations = searchFormTranlations[language] || {};
+        const fallbackTranslations = tagsTranslationsOverrides[language] || {};
 
         // Рекурсивно применяем переводы к узлам дерева
         const applyTranslations = (nodes: TreeSelectNode[]): TreeSelectNode[] => {
