@@ -1,73 +1,54 @@
-# React + TypeScript + Vite
+# Найти аниме
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Веб-приложение для поиска аниме на [AniDB.net](https://anidb.net) с удобным интерфейсом на русском языке
 
-Currently, two official plugins are available:
+## Описание
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Найти аниме** — это инструмент для удобного поиска аниме на AniDB.net. Приложение позволяет задавать различные критерии поиска (жанры, темы, тип аниме, рейтинг, год выпуска, количество эпизодов и т.д.) и генерирует ссылку с параметрами для поиска на AniDB.
 
-## React Compiler
+## Технологии
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React**
+- **TypeScript**
+- **Ant Design**
+- **TanStack React Query**
 
-## Expanding the ESLint configuration
+## Особенности реализации
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Загрузка тегов**: Теги загружаются из CSV файлов (`tags-eng.csv`, `tags-rus.csv`) и кэшируются через React Query
+- **Иерархия тегов**: Дерево тегов парсится из Markdown файла (`tags-tree.md`)
+- **Генерация URL**: Параметры формы преобразуются в URL-параметры для поиска на AniDB.net
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Установка и запуск
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Требования
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js (версия 18 или выше)
+
+### Установка зависимостей
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Запуск в режиме разработки
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+npm run dev
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Приложение будет доступно по адресу `http://localhost:5173`
+
+### Сборка для production
+
+```bash
+npm run build
+```
+
+Результат будет в папке `dist/`
+
+### Превью production сборки
+
+```bash
+npm run preview
 ```
