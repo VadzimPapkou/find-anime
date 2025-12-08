@@ -8,6 +8,7 @@ import { Switch, type TSwitchOption } from "../../shared/ui/switch/switch.tsx";
 import { useTagsTree } from "../../shared/api/use-tags-tree.ts";
 import type { TLanguage } from "../../shared/types/language.ts";
 import { useTagsTreeOptions } from "./use-tags-tree-options.ts";
+import FormItem from "antd/es/form/FormItem";
 
 export type TSearchFormState = Partial<{
     sortType: string;
@@ -15,6 +16,8 @@ export type TSearchFormState = Partial<{
     episodesMin: number;
     episodesMax: number;
     startYear: [Dayjs, Dayjs];
+    minRating: number;
+    animeTypes: string[];
     tags: number[];
 }>;
 
@@ -35,6 +38,14 @@ const sortDirectionOptions: TSwitchOption[] = [
     {icon: 'arrow_downward', value: 'desc'},
 ];
 
+const animeTypeOptions = [
+    {value: 'movie', label: 'Фильм'},
+    {value: 'ova', label: 'OVA'},
+    {value: 'tvseries', label: 'Сериал'},
+    {value: 'tvspecial', label: 'Спецвыпуски'},
+    {value: 'web', label: 'Web'}
+];
+
 const initialValues: TSearchFormState = {
     sortDirection: 'desc',
     sortType: 'rating',
@@ -43,9 +54,7 @@ const initialValues: TSearchFormState = {
 export function SearchForm({onForm, language = 'rus'}: TSearchFormProps) {
     const tagsQuery = useTagsQuery({language: language});
     const tagsTreeQuery = useTagsTree();
-    const tagsTreeOptions = useTagsTreeOptions({ tagsTreeQuery, tagsQuery, language });
-
-    console.log(tagsTreeOptions);
+    const tagsTreeOptions = useTagsTreeOptions({tagsTreeQuery, tagsQuery, language});
 
     const [form] = Form.useForm<TSearchFormState>();
 
@@ -60,10 +69,10 @@ export function SearchForm({onForm, language = 'rus'}: TSearchFormProps) {
                     <Typography.Title level={ 3 }>Число эпизодов</Typography.Title>
                     <Flex gap="small">
                         <Form.Item name="episodesMin">
-                            <InputNumber min={ 1 } placeholder="От"/>
+                            <InputNumber type="number" min={ 1 } placeholder="От"/>
                         </Form.Item>
                         <Form.Item name="episodesMax">
-                            <InputNumber min={ 1 } placeholder="До"/>
+                            <InputNumber type="number" min={ 1 } placeholder="До"/>
                         </Form.Item>
                     </Flex>
                 </div>
@@ -78,11 +87,21 @@ export function SearchForm({onForm, language = 'rus'}: TSearchFormProps) {
                 </Form.Item>
             </div>
             <div className={ styles.column }>
+                <Typography.Title level={ 3 }>Минимальный рейтинг</Typography.Title>
+                <Form.Item name="minRating">
+                    <InputNumber type="number" min={ 1 } max={ 10 } placeholder="Рейтинг" style={ {width: "100%"} }/>
+                </Form.Item>
+                <Typography.Title level={ 3 }>Тип аниме</Typography.Title>
+                <FormItem name="animeTypes">
+                    <Select mode="multiple" options={ animeTypeOptions } placeholder="Тип аниме" allowClear/>
+                </FormItem>
+            </div>
+            <div className={ styles.column }>
                 <div>
                     <Typography.Title level={ 3 }>Сортировка</Typography.Title>
                     <Form.Item className={ styles.sortDirection }>
                         <Form.Item className={ styles.sortTypeFormItem } name={ "sortType" }>
-                            <Select options={ sortTypeOptions } placeholder="Тип сортировки"/>
+                            <Select options={ sortTypeOptions } placeholder="Тип сортировки" allowClear/>
                         </Form.Item>
                         <Form.Item name={ "sortDirection" }>
                             <Switch options={ sortDirectionOptions }/>
@@ -94,9 +113,9 @@ export function SearchForm({onForm, language = 'rus'}: TSearchFormProps) {
                     <Spin spinning={ tagsQuery.isFetching }>
                         <Form.Item name="tags">
                             <TreeSelect
-                                showSearch={{
+                                showSearch={ {
                                     treeNodeFilterProp: 'title'
-                                }}
+                                } }
                                 treeData={ tagsTreeOptions }
                                 multiple
                                 placeholder="Жанры, темы, страна"/>
@@ -104,6 +123,7 @@ export function SearchForm({onForm, language = 'rus'}: TSearchFormProps) {
                     </Spin>
                 </div>
             </div>
+
         </Form>
     );
 }

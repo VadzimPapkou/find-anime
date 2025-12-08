@@ -1,6 +1,7 @@
 .form {
   display: flex;
-  gap: 16px;
+  gap: 0 16px;
+  flex-wrap: wrap;
 }
 
 .column {
@@ -37,5 +38,19 @@
 
   .sortTypeFormItem {
     flex: 1;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+    flex: 1 1 100%;
+  }
+
+  .episodesCount {
+    :global {
+      .ant-form-item {
+        flex: 1;
+      }
+    }
   }
 }

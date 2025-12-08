@@ -6,6 +6,7 @@ export const constructAniDBUrl = (formState: TSearchFormState): string => {
 
     params.append('noalias', '1');
     params.append('do.update', 'Search');
+    params.append('view', "smallgrid");
 
     if (formState.episodesMin) {
         params.append('eps.min', formState.episodesMin.toString());
@@ -23,13 +24,23 @@ export const constructAniDBUrl = (formState: TSearchFormState): string => {
         if (formState.sortType === 'rating') {
             params.append('orderby.rating', direction);
         } else if (formState.sortType === 'year') {
-            params.append('orderby.year', direction);
+            params.append('orderby.airdate', direction);
         }
     }
 
     if (formState.tags) {
         if (formState.tags.length > 0) {
             params.append('atags.include', formState.tags.join(', '));
+        }
+    }
+
+    if (formState.minRating) {
+        params.append('rating.min', formState.minRating + "");
+    }
+
+    if (formState.animeTypes) {
+        for(const animeType of formState.animeTypes) {
+            params.append(`type.${ animeType }`, "1");
         }
     }
 
