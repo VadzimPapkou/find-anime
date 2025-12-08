@@ -6,7 +6,7 @@ export const constructAniDBUrl = (formState: TSearchFormState): string => {
 
     params.append('noalias', '1');
     params.append('do.update', 'Search');
-    params.append('view', "smallgrid");
+    params.append('view', "grid");
 
     if (formState.episodesMin) {
         params.append('eps.min', formState.episodesMin.toString());
