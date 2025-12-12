@@ -3,7 +3,7 @@
     font-weight: 400;
     font-display: swap;
     font-style: normal;
-    src: url('../assets/fonts/Montserrat-Regular.woff2') format('woff2'),
+    src: url('assets/fonts/Montserrat-Regular.woff2') format('woff2'),
     url('https://fonts.gstatic.com/s/montserrat/v29/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw9aXpsog.woff2') format('woff2');
 }
 
@@ -12,7 +12,7 @@
     font-weight: 500;
     font-display: swap;
     font-style: normal;
-    src: url('../assets/fonts/Montserrat-Medium.woff2') format('woff2'),
+    src: url('assets/fonts/Montserrat-Medium.woff2') format('woff2'),
     url('https://fonts.gstatic.com/s/montserrat/v29/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtZ6Hw9aXpsog.woff2') format('woff2');
 }
 
@@ -21,7 +21,7 @@
     font-weight: 600;
     font-display: swap;
     font-style: normal;
-    src: url('../assets/fonts/Montserrat-SemiBold.woff2') format('woff2'),
+    src: url('assets/fonts/Montserrat-SemiBold.woff2') format('woff2'),
     url('https://fonts.gstatic.com/s/montserrat/v29/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCu173w9aXpsog.woff2') format('woff2');
 }
 
@@ -30,6 +30,10 @@
     font-weight: 700;
     font-display: swap;
     font-style: normal;
-    src: url('../assets/fonts/Montserrat-Bold.woff2') format('woff2'),
+    src: url('assets/fonts/Montserrat-Bold.woff2') format('woff2'),
     url('https://fonts.gstatic.com/s/montserrat/v29/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w9aXpsog.woff2') format('woff2');
+}
+
+body {
+    margin: 0;
 }
